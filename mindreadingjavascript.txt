@@ -1,0 +1,69 @@
+const startBtn = document.getElementById("startBtn");
+const emotionText = document.getElementById("emotionText");
+const emoji = document.getElementById("emoji");
+const storyDiv = document.getElementById("story");
+const historyList = document.getElementById("historyList");
+const waveform = document.getElementById("waveform");
+
+const emotionStories = {
+  happy: "☀️ The sun smiled as she danced freely across the field of golden daisies.",
+  sad: "🌧️ The raindrops whispered memories of the past down the foggy glass.",
+  angry: "🌩️ Thunder rumbled in sync with his rising rage.",
+  neutral: "🍃 It was a quiet afternoon, the wind gently playing with the curtains."
+};
+
+const emotionEmojis = {
+  happy: "😊",
+  sad: "😢",
+  angry: "😠",
+  neutral: "😐"
+};
+
+function detectEmotion(text) {
+  const t = text.toLowerCase();
+  if (t.includes("great") || t.includes("joy") || t.includes("fun") || t.includes("laugh")) return "happy";
+  if (t.includes("sad") || t.includes("cry") || t.includes("alone") || t.includes("bad")) return "sad";
+  if (t.includes("hate") || t.includes("mad") || t.includes("angry") || t.includes("furious")) return "angry";
+  return "neutral";
+}
+
+function startRecognition() {
+  if (!('webkitSpeechRecognition' in window)) {
+    alert("Speech Recognition not supported. Please use Google Chrome.");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  waveform.style.display = "flex";
+  storyDiv.textContent = "🎧 Listening for your emotion...";
+
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const emotion = detectEmotion(transcript);
+    const story = emotionStories[emotion];
+
+    emotionText.textContent = emotion;
+    emoji.textContent = emotionEmojis[emotion];
+    storyDiv.textContent = story;
+
+    const li = document.createElement("li");
+    li.textContent = `[${emotion.toUpperCase()}] ${story}`;
+    historyList.prepend(li);
+  };
+
+  recognition.onerror = (event) => {
+    storyDiv.textContent = "❌ Error occurred. Please try again.";
+  };
+
+  recognition.onend = () => {
+    waveform.style.display = "none";
+  };
+}
+
+startBtn.addEventListener("click", startRecognition);

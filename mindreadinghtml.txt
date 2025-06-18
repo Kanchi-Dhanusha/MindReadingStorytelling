@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mind Reader Storytelling</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>🎙️ Mind Reader</h1>
+  <p>Click the button and start speaking. The app will read your emotion and tell a story.</p>
+
+  <button id="startBtn">Start Speaking</button>
+
+  <div id="waveform" class="wave">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <div id="emotion">Detected Emotion: <span id="emotionText">None</span> <span id="emoji">😐</span></div>
+
+  <div id="story">🎬 Your story will appear here...</div>
+
+  <div id="history">
+    <h3>🕒 Story History</h3>
+    <ul id="historyList"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+<link rel="stylesheet" href="styles.css" />
